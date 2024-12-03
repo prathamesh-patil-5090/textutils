@@ -1,28 +1,33 @@
-import React from 'react'
+import React,{useState} from 'react'
+import PropTypes from 'prop-types'
 
-export default function TextForm() {
-  return (
-    <div>
-        <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
-                <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-                </Form.Text>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-                Submit
-            </Button>
-        </Form>
-    </div>
+export default function TextForm(props) {
+    const [text, setText] = useState('Enter Text here');
+    const handleUpClick = () =>{
+        let newText = text.toUpperCase();
+        setText(newText);
+    }
+    const handleOnChange = (event) =>{
+        setText(event.target.value);
+    }
+    return (
+        <>
+            <div className='container'>
+                <h1>{props.heading}</h1>
+                    <div className="mb-3">
+                        <textarea className="form-control" placeholder={text} value={text} onChange={handleOnChange} htmlFor="exampleInputText1" rows="8"/>
+                    </div>
+                    <button className="btn btn-primary" onClick={handleUpClick}>Convert to UpperCase</button>
+            </div>
+            <div className='container my-3'>
+                <h1>Your Text Summary</h1>
+                <p>{text.split(" ").length} words and {text.length} characters</p>
+            </div>
+    </>
   )
+}
+TextForm.propTypes = {heading: PropTypes.string
+}
+
+TextForm.defaultProps = {heading: "Text Area"
 }

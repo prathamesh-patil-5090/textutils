@@ -1,33 +1,72 @@
-import React,{useState} from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 export default function TextForm(props) {
-    const [text, setText] = useState('Enter Text here');
-    const handleUpClick = () =>{
-        let newText = text.toUpperCase();
-        setText(newText);
-    }
-    const handleOnChange = (event) =>{
-        setText(event.target.value);
-    }
+    const [rawText, setRawText] = useState('');
+    const [formattedText, setFormattedText] = useState('');
+
+    const handleUpClick = () => {
+        let newText = rawText.toUpperCase();
+        setRawText(newText);
+        setFormattedText(newText);
+    };
+
+    const handleLoClick = () => {
+        let newText = rawText.toLowerCase();
+        setRawText(newText);
+        setFormattedText(newText);
+    };
+
+    const handleItalicClick = () => {
+        setFormattedText(`<em>${rawText}</em>`); 
+    };
+
+    const handleOnChange = (event) => {
+        let newText = event.target.value;
+        setRawText(newText);
+        setFormattedText(newText);
+    };
+
     return (
         <>
-            <div className='container'>
+            <div className="container">
                 <h1>{props.heading}</h1>
-                    <div className="mb-3">
-                        <textarea className="form-control" placeholder={text} value={text} onChange={handleOnChange} htmlFor="exampleInputText1" rows="8"/>
-                    </div>
-                    <button className="btn btn-primary" onClick={handleUpClick}>Convert to UpperCase</button>
+                <div className="mb-3">
+                    <textarea
+                        className="form-control"
+                        placeholder="Enter Text here"
+                        value={rawText}
+                        onChange={handleOnChange}
+                        id="exampleInputText1"
+                        rows="8"
+                    />
+                </div>
+                <button className="btn btn-primary" onClick={handleUpClick}>
+                    Convert to UpperCase
+                </button>
+                <button className="btn btn-primary mx-3" onClick={handleLoClick}>
+                    Convert to LowerCase
+                </button>
+                <button className="btn btn-primary" onClick={handleItalicClick}>
+                    Convert to Italics
+                </button>
             </div>
-            <div className='container my-3'>
+            <div className="container my-3">
                 <h1>Your Text Summary</h1>
-                <p>{text.split(" ").length} words and {text.length} characters</p>
+                <p>{rawText.trim().split(/\s+/).length} words and {rawText.length} characters</p>
+                <p>{0.008 * rawText.trim().split(/\s+/).length} minutes read</p>
+                <h1>Preview</h1>
+                {/* Render italicized text safely */}
+                <p dangerouslySetInnerHTML={{ __html: formattedText }} />
             </div>
-    </>
-  )
-}
-TextForm.propTypes = {heading: PropTypes.string
+        </>
+    );
 }
 
-TextForm.defaultProps = {heading: "Text Area"
-}
+TextForm.propTypes = {
+    heading: PropTypes.string,
+};
+
+TextForm.defaultProps = {
+    heading: 'Text Area',
+};

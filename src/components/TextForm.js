@@ -32,7 +32,7 @@ export default function TextForm(props) {
             <div className="container">
                 <h1>{props.heading}</h1>
                 <div className="mb-3">
-                    <textarea
+                    <textarea 
                         className="form-control"
                         placeholder="Enter Text here"
                         value={rawText}
@@ -65,8 +65,4 @@ export default function TextForm(props) {
 
 TextForm.propTypes = {
     heading: PropTypes.string,
-};
-
-TextForm.defaultProps = {
-    heading: 'Text Area',
 };

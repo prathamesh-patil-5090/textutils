@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 export default function TextForm(props) {
     const [rawText, setRawText] = useState('');
     const [formattedText, setFormattedText] = useState('');
-
     const handleUpClick = () => {
         let newText = rawText.toUpperCase();
         setRawText(newText);
@@ -26,7 +25,9 @@ export default function TextForm(props) {
         setRawText(newText);
         setFormattedText(newText);
     };
-
+    const countWords = (inputText) => {
+        return inputText.trim() === "" ? 0 : inputText.trim().split(/\s+/).length;
+    };
     return (
         <>
             <div className="container" style = {{color: props.mode === 'dark'? 'white':'black'}}>
@@ -53,8 +54,11 @@ export default function TextForm(props) {
             </div>
             <div className="container my-3" style = {{color: props.mode === 'dark'? 'white':'black'}}>
                 <h1>Your Text Summary</h1>
-                <p>{rawText.trim().split(/\s+/).length} words and {rawText.length} characters</p>
-                <p>{0.008 * rawText.trim().split(/\s+/).length} minutes read</p>
+                <p>
+                    <strong>Your Text Summary</strong>
+                    <br />
+                    {countWords(rawText)} words and {rawText.length} characters
+                </p>
                 <h1>Preview</h1>
                 {/* Render italicized text safely */}
                 <p dangerouslySetInnerHTML={{ __html: formattedText } }/>
